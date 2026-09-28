@@ -1,5 +1,5 @@
 import { Pressable, View } from "react-native";
-import { useTheme } from "../theme";
+import { useAppTheme } from "../theme/useAppTheme";
 
 export type HeatmapCell = { key: string; intensity: number }; // intensity 0..1
 
@@ -20,7 +20,7 @@ export function Heatmap({
   gap?: number;
   onCellPress?: (cell: HeatmapCell) => void;
 }) {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <View style={{ flexDirection: "row", flexWrap: "wrap", gap }}>
       {cells.map((cell) => (

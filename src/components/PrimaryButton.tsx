@@ -1,5 +1,5 @@
 import { Text } from "react-native";
-import { useTheme } from "../theme";
+import { useAppTheme } from "../theme/useAppTheme";
 import { haptics } from "../services/haptics";
 import { PressableScale } from "./PressableScale";
 
@@ -10,7 +10,7 @@ type Props = {
 };
 
 export function PrimaryButton({ label, onPress, disabled }: Props) {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <PressableScale
       onPress={() => {

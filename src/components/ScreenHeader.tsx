@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { useTheme } from "../theme";
+import { useAppTheme } from "../theme/useAppTheme";
 
 type Props = {
   title: string;
@@ -7,7 +7,7 @@ type Props = {
 };
 
 export function ScreenHeader({ title, subtitle }: Props) {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <View style={{ marginBottom: theme.spacing.lg }}>
       <Text style={{ color: theme.colors.ink, ...theme.typography.title }}>{title}</Text>

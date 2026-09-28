@@ -10,7 +10,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { Check } from "lucide-react-native";
-import { useTheme } from "../theme";
+import { useAppTheme } from "../theme/useAppTheme";
 
 // Момент завершения ключевого действия (сохранил запись, закрыл задачу,
 // полил растение) заслуживает свой анимированный "payoff", а не просто toast —
@@ -19,7 +19,7 @@ import { useTheme } from "../theme";
 // один раз, когда бейдж закончит анимацию — используй его, чтобы скрыть сам
 // компонент или перейти дальше.
 export function SuccessBurst({ visible, onDone, size = 64 }: { visible: boolean; onDone?: () => void; size?: number }) {
-  const theme = useTheme();
+  const theme = useAppTheme();
   const scale = useSharedValue(0);
   const ringScale = useSharedValue(0.6);
   const ringOpacity = useSharedValue(0);

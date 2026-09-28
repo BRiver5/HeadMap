@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { useTheme } from "../theme";
+import { useAppTheme } from "../theme/useAppTheme";
 
 type Props = {
   title: string;
@@ -10,7 +10,7 @@ type Props = {
 // Никаких моковых/демо-записей вместо реальных данных: если данных нет,
 // показываем это состояние, а не заглушку.
 export function EmptyState({ title, description }: Props) {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <View style={{ alignItems: "center", paddingVertical: theme.spacing.xxxl }}>
       <Text style={{ color: theme.colors.ink, ...theme.typography.subtitle, textAlign: "center" }}>{title}</Text>

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withDelay, withTiming, Easing } from "react-native-reanimated";
-import { useTheme } from "../theme";
+import { useAppTheme } from "../theme/useAppTheme";
 
 export type BarDatum = { label: string; value: number };
 
@@ -33,7 +33,7 @@ function AnimatedBar({
 // Простой столбчатый чарт на чистых View — без SVG, для сравнения по дням/
 // категориям. Для круговых долей используй DonutChart.
 export function BarChart({ data, color, height = 120 }: { data: BarDatum[]; color: string; height?: number }) {
-  const theme = useTheme();
+  const theme = useAppTheme();
   const max = Math.max(1, ...data.map((d) => d.value));
 
   return (

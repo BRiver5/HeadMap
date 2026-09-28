@@ -1,38 +1,52 @@
-// Палитра приложения. Это единственный файл, где должны жить цветовые значения —
-// компоненты и экраны берут цвета только отсюда, магические hex-коды в JSX запрещены.
+// Палитра HeadMap. Единственный файл с цветовыми значениями интерфейса —
+// компоненты и экраны берут цвета только отсюда (шкалы графиков — в dataviz.ts).
 //
-// ВАЖНО: при старте нового приложения из шаблона поменяй accent (и, если нужно,
-// background/surface) на свои — дизайн не должен повторяться от приложения к приложению,
-// даже если тема совпадает.
+// Выбор акцента (сверка с DESIGN_REGISTRY.md): орхидея/шелковица #7E2F6E,
+// hue ~307°. Этот сектор не встречается ни в одной из последних десяти записей
+// реестра (Inbound петроль, SleepTab янтарь, ZoneSweep роза, Topple фиолетовый,
+// Waterline navy, SubStub стальной синий, MarketBasket чернильно-красный,
+// PantryMatch оливковый, UnitPrice тёмно-синий, Relay неоновый бирюзовый) —
+// это самый широкий свободный зазор по кругу оттенков между ними.
+// Ближайшие соседи по портфелю честно: SplitLease #804275 (hue ~313°, но
+// заметно бледнее — sat 32% против 46%) и PortionScale #5E2C7D (hue ~275°,
+// то есть уже сине-фиолетовый, другой сектор).
+//
+// Фон намеренно не белый: холодный пепельный #F2F1F5 с лёгким фиолетовым
+// подмесом. Приложение про головную боль открывают в том числе при
+// светочувствительности, поэтому чистый белый (#FFFFFF) как фон экрана здесь
+// не используется вообще — белый остаётся только на карточках.
 
 export const light = {
-  background: "#FFFFFF",
-  backgroundAlt: "#FAFAFA",
+  background: "#F2F1F5",
+  backgroundAlt: "#E9E7EE",
   surface: "#FFFFFF",
-  surfaceAlt: "#F2F2F2",
-  border: "#E5E5E5",
-  ink: "#1A1A1A",
-  inkMuted: "#6B6B6B",
-  inkFaint: "#A3A3A3",
+  surfaceAlt: "#F7F6FA",
+  border: "#DFDBE6",
+  ink: "#241F2C",
+  inkMuted: "#6A6377",
+  inkFaint: "#9C95A8",
   onAccent: "#FFFFFF",
-  accent: "#2F5DFF",
-  danger: "#E5484D",
-  success: "#2E9E5B",
+  accent: "#7E2F6E",
+  danger: "#B33A2B",
+  success: "#2E7D62",
 };
 
+// Тёмная палитра — не автоматический инверт, а отдельно подобранные тона:
+// акцент поднят по светлоте (#C578B4), чтобы держать контраст на тёмной
+// поверхности, фон — тёплый уголь с тем же фиолетовым подмесом, что и светлый.
 export const dark = {
-  background: "#0E0E10",
-  backgroundAlt: "#141416",
-  surface: "#1B1B1E",
-  surfaceAlt: "#232326",
-  border: "#2C2C30",
-  ink: "#F2F2F2",
-  inkMuted: "#A3A3A9",
-  inkFaint: "#6B6B72",
-  onAccent: "#FFFFFF",
-  accent: "#5B7CFF",
-  danger: "#FF6B6F",
-  success: "#3FBE79",
+  background: "#17141C",
+  backgroundAlt: "#1E1A24",
+  surface: "#241F2C",
+  surfaceAlt: "#2D2736",
+  border: "#3A3345",
+  ink: "#F3F0F7",
+  inkMuted: "#B0A8BF",
+  inkFaint: "#7C7489",
+  onAccent: "#1A1420",
+  accent: "#C578B4",
+  danger: "#E8796A",
+  success: "#5FB795",
 };
 
 export type Palette = typeof light;

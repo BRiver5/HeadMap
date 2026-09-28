@@ -5,19 +5,29 @@ import * as SplashScreen from "expo-splash-screen";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { getDb } from "../src/db/client";
-import { useTheme } from "../src/theme";
+import { useAppTheme } from "../src/theme/useAppTheme";
+import { useUiStore } from "../src/store/uiStore";
+import { loadSettings } from "../src/data/settings";
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
 export default function RootLayout() {
   const [ready, setReady] = useState(false);
-  const theme = useTheme();
+  const theme = useAppTheme();
+  const hydrate = useUiStore((state) => state.hydrate);
 
+  // Настройки читаются до первого рендера экранов: иначе приложение на кадр
+  // показало бы светлую тему тому, кто выбрал тёмную.
   useEffect(() => {
     getDb()
-      .then(() => setReady(true))
-      .finally(() => SplashScreen.hideAsync().catch(() => {}));
-  }, []);
+      .then(loadSettings)
+      .then((settings) => hydrate(settings.schemePreference))
+      .catch(() => hydrate("light"))
+      .finally(() => {
+        setReady(true);
+        SplashScreen.hideAsync().catch(() => {});
+      });
+  }, [hydrate]);
 
   if (!ready) return null;
 

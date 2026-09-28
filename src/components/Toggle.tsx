@@ -1,5 +1,5 @@
 import { Switch } from "react-native";
-import { useTheme } from "../theme";
+import { useAppTheme } from "../theme/useAppTheme";
 
 type Props = {
   value: boolean;
@@ -7,13 +7,15 @@ type Props = {
 };
 
 export function Toggle({ value, onValueChange }: Props) {
-  const theme = useTheme();
+  const theme = useAppTheme();
   return (
     <Switch
       value={value}
       onValueChange={onValueChange}
-      trackColor={{ false: theme.colors.surfaceAlt, true: theme.colors.accent }}
-      thumbColor={theme.colors.onAccent}
+      trackColor={{ false: theme.colors.border, true: theme.colors.accent }}
+      // Ползунок намеренно фиксированно светлый, а не theme.colors.onAccent:
+      // в тёмной палитре onAccent тёмный, и переключатель сливался бы с треком.
+      thumbColor="#FFFFFF"
     />
   );
 }
