@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import Svg, { Circle, Ellipse, G, Path, Rect } from "react-native-svg";
+import Svg, { Circle, Ellipse, G, Path, Rect, Text as SvgText } from "react-native-svg";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useAppTheme } from "../theme/useAppTheme";
 import { regionHeatColor } from "../theme/dataviz";
@@ -33,13 +33,23 @@ export function HeadDiagram({ size = 180, selected = [], intensities, onToggleRe
   const interactive = Boolean(onToggleRegion);
   const height = (size * 150) / 120;
 
+  // Невыбранная зона красится в backgroundAlt, а не в surfaceAlt: схема живёт
+  // и на шторке (фон background), и на карточке Stats (фон surface), и на
+  // первой из них surfaceAlt практически совпадал с фоном — зоны пропадали.
   const fillFor = (region: RegionKey): string => {
     if (intensities) return regionHeatColor(theme, intensities[region] ?? 0);
-    return selected.includes(region) ? theme.colors.accent : theme.colors.surfaceAlt;
+    return selected.includes(region) ? theme.colors.accent : theme.colors.backgroundAlt;
   };
 
   const strokeFor = (region: RegionKey): string =>
     selected.includes(region) ? theme.colors.accent : theme.colors.border;
+
+  // Подпись внутри закрашенной зоны должна читаться и на акценте, и на светлой
+  // заливке, и на тёмных ступенях тепловой шкалы.
+  const labelInkFor = (region: RegionKey): string => {
+    if (intensities) return (intensities[region] ?? 0) > 0.5 ? "#FFFFFF" : theme.colors.inkMuted;
+    return selected.includes(region) ? theme.colors.onAccent : theme.colors.inkMuted;
+  };
 
   const press = (region: RegionKey) => {
     if (!onToggleRegion) return;
@@ -132,7 +142,8 @@ export function HeadDiagram({ size = 180, selected = [], intensities, onToggleRe
           </G>
 
           {/* затылок — отдельная зона под схемой, иначе во фронтальном виде её
-              некуда положить, не соврав анатомически */}
+              некуда положить, не соврав анатомически. Обе нижние зоны подписаны
+              прямо в SVG: без подписи это просто две безымянные пилюли */}
           <G onPress={() => press("backOfHead")}>
             <Rect
               x={8}
@@ -144,6 +155,15 @@ export function HeadDiagram({ size = 180, selected = [], intensities, onToggleRe
               stroke={strokeFor("backOfHead")}
               strokeWidth={1.5}
             />
+            <SvgText
+              x={32}
+              y={138}
+              fontSize={8}
+              textAnchor="middle"
+              fill={labelInkFor("backOfHead")}
+            >
+              Back
+            </SvgText>
           </G>
 
           {/* шея */}
@@ -158,6 +178,9 @@ export function HeadDiagram({ size = 180, selected = [], intensities, onToggleRe
               stroke={strokeFor("neck")}
               strokeWidth={1.5}
             />
+            <SvgText x={88} y={138} fontSize={8} textAnchor="middle" fill={labelInkFor("neck")}>
+              Neck
+            </SvgText>
           </G>
         </Svg>
       </Animated.View>

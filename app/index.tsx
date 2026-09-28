@@ -64,7 +64,10 @@ export default function CalendarScreen() {
     () => monthSummary(attacks, loggedDays, anchor.slice(0, 7)),
     [attacks, loggedDays, anchor]
   );
-  const streak = useMemo(() => currentFreeStreak(attacks, today), [attacks, today]);
+  const streak = useMemo(
+    () => currentFreeStreak(attacks, today, loggedDays),
+    [attacks, today, loggedDays]
+  );
   const loggedSet = useMemo(() => new Set(loggedDays), [loggedDays]);
 
   const cellSize = Math.floor((Dimensions.get("window").width - theme.spacing.lg * 2 - 6 * 4) / 7);
@@ -206,7 +209,11 @@ export default function CalendarScreen() {
             gap: theme.spacing.md,
           }}
         >
-          <StatTile value={streak} label="days clear" suffix={streak === 1 ? "day" : ""} />
+          <StatTile
+            value={streak}
+            label={streak === 1 ? "day clear" : "days clear"}
+            caption={loggedDays.length === 0 ? "start by tapping today" : undefined}
+          />
           <StatTile
             value={summary.attacks}
             label="attacks this month"

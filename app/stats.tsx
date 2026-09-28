@@ -79,7 +79,11 @@ export default function StatsScreen() {
     title: "Where you stand",
     body: (
       <View style={{ flexDirection: "row", gap: theme.spacing.md }}>
-        <StatTile value={currentFreeStreak(attacks, today)} label="days clear now" tone="accent" />
+        <StatTile
+          value={currentFreeStreak(attacks, today, loggedDays)}
+          label="days clear now"
+          tone="accent"
+        />
         <StatTile value={longestFreeStreak(attacks, loggedDays)} label="best clear run" />
         <StatTile value={attacks.length} label="attacks logged" />
       </View>

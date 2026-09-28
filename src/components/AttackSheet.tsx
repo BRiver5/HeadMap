@@ -116,8 +116,12 @@ export function AttackSheet({
               onPress={() => setStartedAt(nowStamp())}
               trailing={<Clock size={14} color={theme.colors.inkMuted} />}
             />
+            {/* Чип подписан СОСТОЯНИЕМ, а не действием: подсвеченное "It has
+                ended" значит, что у приступа есть время окончания. Подпись
+                действием ("Still going" на закрытом приступе) читалась ровно
+                наоборот — поймано на прогоне. */}
             <Chip
-              label={endedAt ? "Still going" : "It has ended"}
+              label="It has ended"
               selected={Boolean(endedAt)}
               onPress={() => setEndedAt(endedAt ? null : addMinutes(startedAt, 120))}
             />

@@ -79,11 +79,23 @@ export function attacksOnDay(attacks: Attack[], day: DayIso): Attack[] {
 
 // Текущая серия дней без боли: считаем назад от сегодня, пока день чист.
 // Сегодняшний день с болью обрывает серию на нуле.
-export function currentFreeStreak(attacks: Attack[], today: DayIso): number {
-  const days = headacheDays(attacks);
+//
+// Серия не уходит дальше первого дня наблюдений: до начала журнала у
+// приложения нет данных, и засчитывать то время как "дни без боли" — враньё
+// (на пустом журнале так получалось 3650 дней, упёршись в предел цикла).
+export function currentFreeStreak(
+  attacks: Attack[],
+  today: DayIso,
+  loggedDays: DayIso[] = []
+): number {
+  const painDays = headacheDays(attacks);
+  const known = [...loggedDays, ...attacks.map((attack) => attack.day)].sort();
+  const firstKnownDay = known[0];
+  if (!firstKnownDay) return 0;
+
   let streak = 0;
   let cursor = today;
-  while (!days.has(cursor) && streak < 3650) {
+  while (cursor >= firstKnownDay && !painDays.has(cursor)) {
     streak += 1;
     cursor = addDays(cursor, -1);
   }
